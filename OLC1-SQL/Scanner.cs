@@ -351,15 +351,26 @@ namespace OLC1_SQL
                         }
                         break;
                     case 51: //Estado 51, fecha
-                        if (char.IsDigit(c))
+                        if (char.IsDigit(c) || c.Equals('/'))
+                        {
+                            lexema += c;
+                        } 
+                        else if(c == 39)
                         {
                             estado = 52;
                             lexema += c;
-                        } 
+                        }
                         else
                         {
-
+                            agregarError(c.ToString(), fila, columna);
                         }
+                        break;
+                    case 52: //Estado 52, aceptar fecha
+                        agregarToken(TokenSQL.FECHA,lexema, tempFila, columna);
+                        estado = 0;
+                        fila--;
+                        i--;
+                        break;
                 }
 
                 fila++;
@@ -380,7 +391,7 @@ namespace OLC1_SQL
             if(token == TokenSQL.ID)
             {
                 //Verificar si es una palabra reservada
-                tokens.Add(new Token(validarToken(token), lexema, fila, columna));
+                tokens.Add(new Token(validarToken(lexema), lexema, fila, columna));
             }
             else
             {
@@ -389,43 +400,43 @@ namespace OLC1_SQL
             
         }
 
-        private TokenSQL validarToken(TokenSQL token)
+        private TokenSQL validarToken(String lexema)
         {
-            switch (token)
+            switch (lexema.ToUpper())
             {
-                case TokenSQL.PR_ACTUALIZAR:
+                case "ACTUALIZAR":
                     return TokenSQL.PR_ACTUALIZAR;
-                case TokenSQL.PR_CADENA:
+                case "CADENA":
                     return TokenSQL.PR_CADENA;
-                case TokenSQL.PR_COMO:
+                case "COMO":
                     return TokenSQL.PR_COMO;
-                case TokenSQL.PR_CREAR:
+                case "CREAR":
                     return TokenSQL.PR_CREAR;
-                case TokenSQL.PR_DE:
+                case "DE":
                     return TokenSQL.PR_DE;
-                case TokenSQL.PR_DONDE:
+                case "DONDE":
                     return TokenSQL.PR_DONDE;
-                case TokenSQL.PR_EN:
+                case "EN":
                     return TokenSQL.PR_EN;
-                case TokenSQL.PR_ENTERO:
+                case "ENTERO":
                     return TokenSQL.PR_ENTERO;
-                case TokenSQL.PR_ESTABLECER:
+                case "ESTABLECER":
                     return TokenSQL.PR_ESTABLECER;
-                case TokenSQL.PR_FECHA:
+                case "FECHA":
                     return TokenSQL.PR_FECHA;
-                case TokenSQL.PR_FLOTANTE:
+                case "FLOTANTE":
                     return TokenSQL.PR_FLOTANTE;
-                case TokenSQL.PR_INSERTAR:
+                case "INSERTAR":
                     return TokenSQL.PR_INSERTAR;
-                case TokenSQL.PR_O:
+                case "O":
                     return TokenSQL.PR_O;
-                case TokenSQL.PR_SELECCIONAR:
+                case "SELECCIONAR":
                     return TokenSQL.PR_SELECCIONAR;
-                case TokenSQL.PR_TABLA:
+                case "TABLA":
                     return TokenSQL.PR_TABLA;
-                case TokenSQL.PR_VALORES:
+                case "VALORES":
                     return TokenSQL.PR_VALORES;
-                case TokenSQL.PR_Y:
+                case "Y":
                     return TokenSQL.PR_Y;
                 default:
                     return TokenSQL.ID;

@@ -81,6 +81,7 @@ namespace OLC1_SQL
         {
             listaTokens = new List<Token>();
 
+            prueba();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -97,5 +98,26 @@ namespace OLC1_SQL
             //}
             
         }
+
+        private static void prueba()
+        {
+            String txto = "CREAR TABLA Departamento( $Id_departamento entero, nombre cadena);INSERTAR EN Departamento VALORES(0,\"Alta Verapaz\");INSERTAR EN Departamento VALORES(1,\"Baja Verapaz\");INSERTAR EN Departamento VALORES(2,\"Chimaltenango\");INSERTAR EN Departamento VALORES(3#,\"Chiquimula\");%&# ";
+
+            Scanner sc = new Scanner(txto);
+
+            listaTokens = sc.Scan();
+            listaErrores = sc.getErrores();
+
+            foreach(Token t in listaTokens)
+            {
+                Console.WriteLine(t.toString());
+            }
+
+            foreach(Token t in listaErrores)
+            {
+                Console.WriteLine(t.toString());
+            }
+        }
+
     }
 }
