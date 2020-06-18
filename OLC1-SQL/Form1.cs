@@ -58,8 +58,6 @@ namespace OLC1_SQL
                     e.Graphics.DrawString(numFila.ToString(), entrada.Font, Brushes.Silver, numLineTxt.Width - (e.Graphics.MeasureString(numFila.ToString(), entrada.Font).Width + 10), altura);
                     contadorPos += entrada.Lines.ElementAt(i).Length + 1;
 
-                    Console.WriteLine(contadorPos);
-
                     altura = entrada.GetPositionFromCharIndex(contadorPos).Y;
                 }
             } 

@@ -3,31 +3,53 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static OLC1_SQL.Program;
 
 namespace OLC1_SQL
 {
     class Token
     {
-        private int tipo;
-        private String lexema;
-        private double valor;
-        private int fila;
-        private int columna;
+        private TokenSQL token { get; }
+        private String lexema { get; }
+        private int fila { get; }
+        private int columna { get; }
 
-        Token(int tipo, String lexema, int fila, int columna)
+        public Token(TokenSQL token, String lexema, int fila, int columna)
         {
-            this.tipo = tipo;
+            this.token = token;
             this.lexema = lexema;
             this.fila = fila;
             this.columna = columna;
         }
 
-        private void setValor()
+        public String toString()
         {
-            if(this.tipo == T_INT || this.tipo == T_FLOAT)
-            {
+            return "Token: [" + (int)token + "] Tipo: " + token + ", Lexema: " + lexema + " (" + fila + "," + columna + ")";
+        }
 
-            }
+        public String getHTML()
+        {
+            return "<td></td>";
+        }
+
+        public TokenSQL getToken()
+        {
+            return this.token;
+        }
+
+        public String getLexema()
+        {
+            return this.lexema;
+        }
+
+        public int getFila()
+        {
+            return this.fila;
+        }
+
+        public int getColumna()
+        {
+            return this.columna;
         }
     }
 }
