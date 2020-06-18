@@ -1,0 +1,10 @@
+C:\Users\JOSED\source\repos\-OLC1-PY1_201503836\OLC1-SQL\bin\Debug\OLC1-SQL.exe.config
+C:\Users\JOSED\source\repos\-OLC1-PY1_201503836\OLC1-SQL\bin\Debug\OLC1-SQL.exe
+C:\Users\JOSED\source\repos\-OLC1-PY1_201503836\OLC1-SQL\bin\Debug\OLC1-SQL.pdb
+C:\Users\JOSED\source\repos\-OLC1-PY1_201503836\OLC1-SQL\obj\Debug\OLC1-SQL.csprojAssemblyReference.cache
+C:\Users\JOSED\source\repos\-OLC1-PY1_201503836\OLC1-SQL\obj\Debug\OLC1_SQL.Form1.resources
+C:\Users\JOSED\source\repos\-OLC1-PY1_201503836\OLC1-SQL\obj\Debug\OLC1_SQL.Properties.Resources.resources
+C:\Users\JOSED\source\repos\-OLC1-PY1_201503836\OLC1-SQL\obj\Debug\OLC1-SQL.csproj.GenerateResource.cache
+C:\Users\JOSED\source\repos\-OLC1-PY1_201503836\OLC1-SQL\obj\Debug\OLC1-SQL.csproj.CoreCompileInputs.cache
+C:\Users\JOSED\source\repos\-OLC1-PY1_201503836\OLC1-SQL\obj\Debug\OLC1-SQL.exe
+C:\Users\JOSED\source\repos\-OLC1-PY1_201503836\OLC1-SQL\obj\Debug\OLC1-SQL.pdb
