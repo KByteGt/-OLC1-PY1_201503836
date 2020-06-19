@@ -27,9 +27,17 @@ namespace OLC1_SQL
             return "Token: [" + (int)token + "] Tipo: " + token + ", Lexema: " + lexema + " (" + fila + "," + columna + ")";
         }
 
-        public String getHTML()
+        public String getHTML(int i)
         {
-            return "<td></td>";
+            if(token == TokenSQL.ERROR_LEXICO)
+            {
+                return "<tr><td>" + i + "</td><td>" + (int)token + "</td><td>" + token.ToString() + "</td><td>El caracter: << " + lexema + " >>, no pertenece al lenguaje</td><td>" + fila + "</td><td>" + columna + "</td></tr>";
+            }
+            else
+            {
+                return "<tr><td>" + i + "</td><td>" + (int)token + "</td><td>" + token.ToString() + "</td><td>" + lexema + "</td><td>" + fila + "</td><td>" + columna + "</td></tr>";
+            }
+            
         }
 
         public TokenSQL getToken()

@@ -71,6 +71,8 @@ namespace OLC1_SQL
         static Color gris;
         static Color rojo;
         static Color cafe;
+
+        static String ruta;
        
 
         /// <summary>
@@ -81,7 +83,7 @@ namespace OLC1_SQL
         {
             listaTokens = new List<Token>();
 
-            prueba();
+            //prueba();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -117,6 +119,16 @@ namespace OLC1_SQL
             {
                 Console.WriteLine(t.toString());
             }
+
+            ruta = @"C:\Users\JOSED\Documents\Reportes\SQL-es";
+
+            String descripcion = "Reporte de todos los toquens reconocidos por el programa al ejecutar el Scanner()";
+            Archivo a = new Archivo();
+            HTML html = new HTML("Reporte Tokens","Reporte de Tokens - SQL-es",descripcion);
+            a.crearHTML(ruta, "reporteTokens", html.crear(listaTokens));
+
+            html = new HTML("Reporte De Errores", "Reporte de Errores - SQL-es", "Errores encontrados...");
+            a.crearHTML(ruta, "reporteErr", html.crear(listaErrores));
         }
 
     }
