@@ -20,13 +20,6 @@ namespace OLC1_SQL
         public void crearHTML(String path, String archivo, String txt)
         {
             ruta = path + @"\" + archivo + ".html";
-            //if (!File.Exists(ruta))
-            //{
-            //    using (StreamWriter sw = File.CreateText(ruta))
-            //    {
-            //        sw.WriteLine(txt);
-            //    }
-            //}
             try
             {
                 StreamWriter sw = new StreamWriter(ruta, false, Encoding.UTF8);
@@ -41,14 +34,6 @@ namespace OLC1_SQL
         }   
         public String leerArchivo(String path)
         {
-            //using (StreamReader sr = File.OpenText(path))
-            //{
-            //    String s = "";
-            //    while((s = sr.ReadLine()) != null)
-            //    {
-            //        entrada += s;
-            //    }
-            //}
             try
             {
                 StreamReader sr = new StreamReader(path, Encoding.Default);
@@ -62,6 +47,20 @@ namespace OLC1_SQL
             
 
             return entrada;
+        }
+        
+        public void crearArchivo(String path, String txt)
+        {
+            try
+            {
+                StreamWriter sw = new StreamWriter(path, false, Encoding.UTF8);
+                sw.WriteLine(txt);
+                sw.Close();
+            }
+            catch (InvalidCastException e)
+            {
+                
+            }
         }
     }
 }
