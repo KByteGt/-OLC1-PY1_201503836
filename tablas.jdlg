@@ -165,3 +165,10 @@ INSERTAR EN Zona VALORES(84,"Zona 2",41);
 INSERTAR EN Zona VALORES(85,"Zona 2",42);
 INSERTAR EN Zona VALORES(86,"Zona 2",43);
 INSERTAR EN Zona VALORES(87,"Zona 2",44);
+
+
+SELECCIONAR * DE Estudiantes
+SELECCIONAR Zona.nombre  DE Estudiantes
+SELECCIONAR Zona.nombre como zona  DE Estudiantes
+SELECCIONAR Zona.nombre como zona, Municipio.nombre como municipio DE Estudiantes
+Seleccionar Zona.*

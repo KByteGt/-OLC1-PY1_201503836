@@ -156,12 +156,14 @@
             this.ejecutarToolStripMenuItem.Name = "ejecutarToolStripMenuItem";
             this.ejecutarToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.ejecutarToolStripMenuItem.Text = "Ejecutar";
+            this.ejecutarToolStripMenuItem.Click += new System.EventHandler(this.ejecutarToolStripMenuItem_Click);
             // 
             // cargarTablasToolStripMenuItem
             // 
             this.cargarTablasToolStripMenuItem.Name = "cargarTablasToolStripMenuItem";
             this.cargarTablasToolStripMenuItem.Size = new System.Drawing.Size(219, 22);
             this.cargarTablasToolStripMenuItem.Text = "Cargar Tablas";
+            this.cargarTablasToolStripMenuItem.Click += new System.EventHandler(this.cargarTablasToolStripMenuItem_Click);
             // 
             // verTablasToolStripMenuItem
             // 

@@ -61,7 +61,8 @@ namespace OLC1_SQL
         }
 
         static List<Token> listaTokens;
-        static List<Token> listaErrores;
+        static List<Token> listaErroresLexicos;
+        static List<Token> listaErroresSintacticos;
 
         static Color morado;
         static Color naranja;
@@ -108,14 +109,14 @@ namespace OLC1_SQL
             Scanner sc = new Scanner(txto);
 
             listaTokens = sc.Scan();
-            listaErrores = sc.getErrores();
+            listaErroresLexicos = sc.getErrores();
 
             foreach(Token t in listaTokens)
             {
                 Console.WriteLine(t.toString());
             }
 
-            foreach(Token t in listaErrores)
+            foreach(Token t in listaErroresLexicos)
             {
                 Console.WriteLine(t.toString());
             }
@@ -128,7 +129,7 @@ namespace OLC1_SQL
             a.crearHTML(ruta, "reporteTokens", html.crear(listaTokens));
 
             html = new HTML("Reporte De Errores", "Reporte de Errores - SQL-es", "Errores encontrados...");
-            a.crearHTML(ruta, "reporteErr", html.crear(listaErrores));
+            a.crearHTML(ruta, "reporteErr", html.crear(listaErroresLexicos));
         }
 
     }

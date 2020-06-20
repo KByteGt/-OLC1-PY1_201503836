@@ -14,7 +14,10 @@ namespace OLC1_SQL
         private List<Token> errores;
         private int estado, fila, columna, tempFila, tempColumna;
         private String lexema;
-        
+
+        private int CRLF = 655370;
+
+
         public Scanner(String entrada)
         {
             this.entrada = entrada.ToCharArray();
@@ -25,8 +28,8 @@ namespace OLC1_SQL
 
         public List<Token> Scan()
         {
-            this.fila = 0;
-            this.columna = 0;
+            this.fila = 1;
+            this.columna = 1;
             this.estado = 0;
             this.tempFila = 0;
             this.lexema = "";
@@ -40,48 +43,40 @@ namespace OLC1_SQL
                 switch (estado)
                 {
                     case 0: //Estado inicial
-                        tempFila = 0;
-                        tempColumna = 0;
+                        this.tempFila = fila;
+                        this.tempColumna = columna;
                         lexema = "";
 
                         if (c.Equals('/'))
                         {
                             estado = 10;
                             lexema += c;
-                            tempFila = fila;
-                            tempColumna = columna;
                         }
                         else if (c.Equals('-'))
                         {
                             estado = 20;
                             lexema += c;
-                            tempFila = fila;
                         }
                         else if (Char.IsLetter(c))
                         {
                             estado = 30;
                             lexema += c;
-                            tempFila = fila;
                         }
                         else if (c.Equals('='))
                         {
                             estado = 40;
-                            tempFila = fila;
                         }
                         else if (c.Equals('<'))
                         {
                             estado = 110;
-                            tempFila = fila;
                         }
                         else if (c.Equals('>'))
                         {
                             estado = 120;
-                            tempFila = fila;
                         }
                         else if (c.Equals('!'))
                         {
                             estado = 130;
-                            tempFila = fila;
                         }
                         else if (c.Equals('('))
                         {
@@ -99,36 +94,43 @@ namespace OLC1_SQL
                         {
                             agregarToken(TokenSQL.CL_FL, ";", fila, columna);
                         }
+                        else if (c.Equals('.'))
+                        {
+                            agregarToken(TokenSQL.CL_PUNTO, ".", fila, columna);
+                        }
+                        else if (c.Equals('*'))
+                        {
+                            agregarToken(TokenSQL.CL_POR, "*", fila, columna);
+                        }
                         else if (Char.IsDigit(c))
                         {
                             estado = 80;
                             lexema += c;
-                            tempFila = fila;
                         }
                         else if (c == 34) // "
                         {
                             estado = 70;
                             lexema += c;
-                            tempFila = fila;
                         }
                         else if(c == 39) // '
                         {
                             estado = 50;
                             lexema += c;
-                            tempFila = fila;
+                        }
+                        else if (c.Equals(10) || c.Equals(13) || c.GetHashCode().Equals(CRLF)) //CRLF
+                        {
+                            Console.WriteLine("CRLF");
+                            nuevaLinea();
                         }
                         else if (Char.IsWhiteSpace(c)) //WS
                         {
                             //No hacer nada
-                        }
-                        else if(c == 10 || c == 13 || c == '\n') //CRLF
-                        {
-                            fila = 0;
-                            columna++;
+                            Console.WriteLine("Espacio");
                         }
                         else if(c == '\t') //TAB
                         {
                             //No hacer nada
+                            Console.WriteLine("TAB");
                         }
                         else
                         {
@@ -145,17 +147,20 @@ namespace OLC1_SQL
                         else
                         {
                             //Error lexico /
-                            agregarError(lexema, tempFila, columna);
-                            estado = 0;
-                            fila--;
+                            agregarError(lexema, tempFila, tempColumna);
+                            estado0();
                             i--;
-
                         }
                         break;
                     case 11: //Estado 11, Comentario bloque
                         if (c.Equals('*'))
                         {
                             estado = 12;
+                        }
+
+                        if (c.Equals(10) || c.Equals(13) || c.GetHashCode().Equals(CRLF))
+                        {
+                            nuevaLinea();
                         }
 
                         lexema += c;
@@ -174,8 +179,7 @@ namespace OLC1_SQL
                         break;
                     case 13: //Estado 13, Aceptar comentario bloque
                         agregarToken(TokenSQL.COMENTARIO_BLOQUE, lexema, tempFila, tempColumna);
-                        estado = 0;
-                        fila--;
+                        estado0();
                         i--;
                         break;
 
@@ -188,18 +192,16 @@ namespace OLC1_SQL
                         else
                         {
                             //Error léxico -
-                            agregarError(lexema, tempFila, columna);
-                            estado = 0;
-                            fila--;
+                            agregarError(lexema, tempFila, tempColumna);
+                            estado0();
                             i--;
                         }
                         break;
                     case 21: //Estado 21, comentario linea y aceptación de comentario
-                        if (c.Equals(10) || c.Equals(13))
+                        if (c.Equals(10) || c.Equals(13) || c.GetHashCode().Equals(CRLF))
                         {
-                            agregarToken(TokenSQL.COMENTARIO_LINEA, lexema, tempFila, columna);
-                            estado = 0;
-                            fila--;
+                            agregarToken(TokenSQL.COMENTARIO_LINEA, lexema, tempFila, tempColumna);
+                            estado0();
                             i--;
                         }
                         else
@@ -215,17 +217,15 @@ namespace OLC1_SQL
                         }
                         else
                         {
-                            agregarToken(TokenSQL.ID, lexema, tempFila, columna);
-                            estado = 0;
-                            fila--;
+                            agregarToken(TokenSQL.ID, lexema, tempFila, tempColumna);
+                            estado0();
                             i--;
                         }
                         break;
 
                     case 40: //Estado 40, aceptar =
-                        agregarToken(TokenSQL.CL_IGUAL, "=", tempFila, columna);
-                        estado = 0;
-                        fila--;
+                        agregarToken(TokenSQL.CL_IGUAL, "=", tempFila, tempColumna);
+                        estado0();
                         i--;
                         break;
 
@@ -236,16 +236,14 @@ namespace OLC1_SQL
                         }
                         else
                         {
-                            agregarToken(TokenSQL.CL_MENOR, "<", tempFila, columna);
-                            estado = 0;
-                            fila--;
+                            agregarToken(TokenSQL.CL_MENOR, "<", tempFila, tempColumna);
+                            estado0();
                             i--;
                         }
                         break;
                     case 111: //Estado 111, acepatr <=
-                        agregarToken(TokenSQL.CL_MENOR_IGUAL, "<=", tempFila, columna);
-                        estado = 0;
-                        fila--;
+                        agregarToken(TokenSQL.CL_MENOR_IGUAL, "<=", tempFila, tempColumna);
+                        estado0();
                         i--;
                         break;
 
@@ -256,14 +254,13 @@ namespace OLC1_SQL
                         } 
                         else
                         {
-                            agregarToken(TokenSQL.CL_MAYOR, ">", tempFila, columna);
-                            estado = 0;
-                            fila--;
+                            agregarToken(TokenSQL.CL_MAYOR, ">", tempFila, tempColumna);
+                            estado0();
                             i--;
                         }
                         break;
                     case 121: //Estado 121, aceptar >=
-                        agregarToken(TokenSQL.CL_MAYOR_IGUAL, ">=", tempFila, columna);
+                        agregarToken(TokenSQL.CL_MAYOR_IGUAL, ">=", tempFila, tempColumna);
                         estado = 0;
                         fila--;
                         i--;
@@ -277,16 +274,14 @@ namespace OLC1_SQL
                         else
                         {
                             //Error !
-                            agregarError("!", tempFila, columna);
-                            estado = 0;
-                            fila--;
+                            agregarError("!", tempFila, tempColumna);
+                            estado0();
                             i--;
                         }
                         break;
                     case 131: //Estado 131, aceptar !=
-                        agregarToken(TokenSQL.CL_DIFERENTE, "!=", tempFila, columna);
-                        estado = 0;
-                        fila--;
+                        agregarToken(TokenSQL.CL_DIFERENTE, "!=", tempFila, tempColumna);
+                        estado0();
                         i--;
                         break;
 
@@ -302,9 +297,8 @@ namespace OLC1_SQL
                         } 
                         else
                         {
-                            agregarToken(TokenSQL.ENTERO, lexema, tempFila, columna);
-                            estado = 0;
-                            fila--;
+                            agregarToken(TokenSQL.ENTERO, lexema, tempFila, tempColumna);
+                            estado0();
                             i--;
                         }
                         break;
@@ -315,9 +309,8 @@ namespace OLC1_SQL
                         }
                         else
                         {
-                            agregarToken(TokenSQL.FLOTANTE, lexema, tempFila, columna);
-                            estado = 0;
-                            fila--;
+                            agregarToken(TokenSQL.FLOTANTE, lexema, tempFila, tempColumna);
+                            estado0();
                             i--;
                         }
                         break;
@@ -330,9 +323,8 @@ namespace OLC1_SQL
                         lexema += c;
                         break;
                     case 71: //Estado 71, aceptar cadena
-                        agregarToken(TokenSQL.CADENA, lexema, tempFila, columna);
-                        estado = 0;
-                        fila--;
+                        agregarToken(TokenSQL.CADENA, lexema, tempFila, tempColumna);
+                        estado0();
                         i--;
                         break;
 
@@ -344,9 +336,8 @@ namespace OLC1_SQL
                         }
                         else
                         {
-                            agregarError(lexema, tempFila, columna);
-                            estado = 0;
-                            fila--;
+                            agregarError(lexema, tempFila, tempColumna);
+                            estado0();
                             i--;
                         }
                         break;
@@ -362,18 +353,17 @@ namespace OLC1_SQL
                         }
                         else
                         {
-                            agregarError(c.ToString(), fila, columna);
+                            agregarError(c.ToString(), fila, tempColumna);
                         }
                         break;
                     case 52: //Estado 52, aceptar fecha
-                        agregarToken(TokenSQL.FECHA,lexema, tempFila, columna);
-                        estado = 0;
-                        fila--;
+                        agregarToken(TokenSQL.FECHA,lexema, tempFila, tempColumna);
+                        estado0();
                         i--;
                         break;
                 }
 
-                fila++;
+                columna++;
             }
 
 
@@ -381,9 +371,21 @@ namespace OLC1_SQL
         }
 
         //Otros metodos
+        private void estado0()
+        {
+            estado = 0;
+            columna--;
+        }
+
+        private void nuevaLinea()
+        {
+            Console.WriteLine("Linea: " + fila);
+            fila++;
+            columna = 0;
+        }
         private void agregarError(String lexema, int fila, int columna)
         {
-            errores.Add(new Token(TokenSQL.ERROR_LEXICO, lexema, fila, columna));
+            errores.Add(new Token(TokenSQL.ERROR_LEXICO, "El caracter: << " + lexema + " >> no pertenece al lenguaje", fila, columna));
         }
 
         private void agregarToken(TokenSQL token, String lexema, int fila, int columna)
@@ -397,7 +399,7 @@ namespace OLC1_SQL
             {
                 tokens.Add(new Token(token, lexema, fila, columna));
             }
-            
+            Console.WriteLine("TempFila: " + tempFila + ", TempColumna: " + tempColumna);
         }
 
         private TokenSQL validarToken(String lexema)

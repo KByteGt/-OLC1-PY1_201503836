@@ -26,6 +26,12 @@ namespace OLC1_SQL
 
         Archivo archivo = new Archivo();
         SaveFileDialog saveFileDialog1;
+        OpenFileDialog openFileDialogSQLE;
+
+        List<Token> listaTokens;
+        List<Token> listaErroresLexicos;
+        List<Token> listaErroresSintacticos;
+        NodoAST raiz;
 
 
         private void nueboToolStripMenuItem_Click(object sender, EventArgs e)
@@ -63,6 +69,19 @@ namespace OLC1_SQL
             MessageBox.Show("José Daniel López Gonzalez - 201503836\nOrganización de Lenguajes y Compiladores 1", "Proyecto 1 - SQL español");
         }
 
+        private void cargarTablasToolStripMenuItem_Click(object sender, EventArgs e)
+        {   //Cargar tablas
+            if (openFileDialogSQLE.ShowDialog() == DialogResult.OK)
+            {
+                abrirArchivo(openFileDialogSQLE.FileName);
+            }
+        }
+
+        private void ejecutarToolStripMenuItem_Click(object sender, EventArgs e)
+        {   //Ejecutar analisis léxico y sintáctico
+            ejecutarAnalisis();
+        }
+
         public Form1()
         {
             ///////////////////////////////////////////////
@@ -71,6 +90,11 @@ namespace OLC1_SQL
             timer1.Start();
 
             statusProgresBar.Value = 0;
+
+            listaTokens = new List<Token>();
+            listaErroresLexicos = new List<Token>();
+            listaErroresSintacticos = new List<Token>();
+
             // File Dialog
             openFileDialog1 = new OpenFileDialog()
             {
@@ -82,10 +106,17 @@ namespace OLC1_SQL
             saveFileDialog1 = new SaveFileDialog()
             {
                 FileName = "Sin_titulo",
-                Filter = "SQL JDLG (*.jdlg)|*.jdlg",
+                Filter = "SQL JDLG (*.jdlg)|*.jdlg|SQLE (*.sqle)|*.sqle",
                 Title = "Guardar como archivo SQL-es"
             };
-           
+
+            openFileDialogSQLE = new OpenFileDialog()
+            {
+                FileName = "Seleccionear un archivo SQLE",
+                Filter = "SQLE (*.sqle)|*.sqle",
+                Title = "Abrir archivo SQLE"
+            };
+
 
             ///////////////////////////////////////////////
         }
@@ -165,6 +196,8 @@ namespace OLC1_SQL
             escribirLinea(" - Abriendo archivo: " + nombreArchivo);
         }
 
+        
+
         private void guardar()
         {   //Guardar Archivo
             if (flagArchivo)
@@ -222,12 +255,63 @@ namespace OLC1_SQL
                 this.Dispose();
             }
         }
+
         public void escribirLinea(String txt)
         {
             txt_consola += txt + "\n ";
             consola.Text = txt_consola;
         }
 
-        
+        //Analisis
+
+        private void ejecutarAnalisis()
+        {   //Ejecutar el análisis
+            
+            if(entrada.Text.Length > 0)
+            {
+                analisisLexico();
+
+                analisisSintactico();
+
+                generarReportes();
+            } else
+            {
+                escribirLinea(" -- No hay texto para analizar...");
+            }
+        }
+
+        private void analisisLexico()
+        {
+            escribirLinea(" - Ejecutando análisis léxico...");
+
+            Scanner sc = new Scanner(entrada.Text);
+            listaTokens = sc.Scan();
+            listaErroresLexicos = sc.getErrores();
+            escribirLinea("\t* Tokens reconocidos: "+listaTokens.Count());
+            escribirLinea("\t* Errores léxicos: " + listaErroresLexicos.Count());
+        }
+
+        private void analisisSintactico()
+        {
+            escribirLinea(" - Ejecutando análisis Sintáctico...");
+
+            Parser ps = new Parser(this.listaTokens);
+            raiz = ps.Pars();
+        }
+
+        private void generarReportes()
+        {
+            escribirLinea(" - Generando los reportes...");
+
+            pathCarpeta = @"C:\Users\JOSED\Documents\Reportes\SQL-es";
+
+            String descripcion = "Reporte de todos los toquens reconocidos por el programa al ejecutar el Scanner()";
+            Archivo a = new Archivo();
+            HTML html = new HTML("Reporte Tokens", "Reporte de Tokens - SQL-es", descripcion);
+            a.crearHTML(pathCarpeta, "reporteTokens", html.crear(listaTokens));
+
+            html = new HTML("Reporte De Errores", "Reporte de Errores - SQL-es", "Errores encontrados...");
+            a.crearHTML(pathCarpeta, "reporteErr", html.crear(listaErroresLexicos));
+        }
     }
 }

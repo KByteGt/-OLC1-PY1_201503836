@@ -63,12 +63,20 @@ namespace OLC1_SQL
         private String getTabla()
         {
             String txt = "\t\t\t\t\t<tbody>\n";
-            int i = 1;
-            foreach (Token t in lista)
+            if(lista.Count > 0)
             {
-                txt += "\n\t\t\t\t\t\t" + t.getHTML(i);
-                i++;
+                int i = 1;
+                foreach (Token t in lista)
+                {
+                    txt += "\n\t\t\t\t\t\t" + t.getHTML(i);
+                    i++;
+                }
             }
+            else
+            {
+                txt += "<tr><td colspan=\"6\"><p class=\"text-center\">No hay datos...</p></td></tr>";
+            }
+            
             txt += "\t\t\t\t\t</tbody>\n\t\t\t\t</table>\n\t\t\t</div>\n";
 
             return txt;
