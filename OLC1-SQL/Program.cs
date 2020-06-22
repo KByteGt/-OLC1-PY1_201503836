@@ -38,10 +38,11 @@ namespace OLC1_SQL
             PR_ACTUALIZAR = 30,         //Palabra reservada ACTUALIZAR
             PR_ESTABLECER = 31,         //Palabra reservada ESTABLECER
             PR_COMO = 32,               //Palabra reservada COMO
-            PR_ENTERO = 33,             //Palabra reservada ENTERO
-            PR_CADENA = 34,             //Palabra reservada CADENA
-            PR_FLOTANTE = 35,           //Palabra reservada FLOTANTE
-            PR_FECHA = 36,              //Palabra reservada FECHA
+            PR_ELIMINAR = 33,           //Palabra reservada ELIMINAR
+            PR_ENTERO = 34,             //Palabra reservada ENTERO
+            PR_CADENA = 35,             //Palabra reservada CADENA
+            PR_FLOTANTE = 36,           //Palabra reservada FLOTANTE
+            PR_FECHA = 37,              //Palabra reservada FECHA
 
             CL_PARENTESIS_1 = 40,       // (
             CL_PARENTESIS_2 = 41,       // )
@@ -57,7 +58,9 @@ namespace OLC1_SQL
             CL_PUNTO = 46,              // .
 
             COMENTARIO_LINEA = 100,     // -- C* LFCR
-            COMENTARIO_BLOQUE = 101     // /* C* */
+            COMENTARIO_BLOQUE = 101,    // /* C* */
+
+            NO_TERMINAL = -1            // NO TERMINAL
         }
 
         static List<Token> listaTokens;
@@ -74,6 +77,8 @@ namespace OLC1_SQL
         static Color cafe;
 
         static String ruta;
+
+        public static String pathCarpeta = @"C:\Users\JOSED\source\repos\-OLC1-PY1_201503836\Reportes";
        
 
         /// <summary>

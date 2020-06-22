@@ -1,0 +1,61 @@
+﻿<!doctype html>
+<html lang = "es">
+	<head>
+		<meta charset = "utf-8">
+		<meta name = "viewport" content = "width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel = "stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity = "sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin = "anonymous">
+		<title> PY1 - Reporte Tokens</title>
+	</head>
+<body>
+			<div class="container">
+				<h1 class="text-center text-dark">Reporte de Tokens - SQL-es</h1>
+					<p class="text-center text-muted">Reporte de todos los toquens reconocidos por el programa al ejecutar el Scanner()</p>
+					<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope = "col" >#</th>
+							<th scope="col">Token</th>
+							<th scope = "col" > Tipo </th >
+							<th scope="col">Lexema</th>
+							<th scope = "col" > Fila </th >
+							<th scope="col">Columna</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr><td>1</td><td>20</td><td>PR_CREAR</td><td>CREAR</td><td>1</td><td>1</td></tr>
+						<tr><td>2</td><td>21</td><td>PR_TABLA</td><td>TABLA</td><td>1</td><td>7</td></tr>
+						<tr><td>3</td><td>14</td><td>ID</td><td>Estudiantes</td><td>1</td><td>13</td></tr>
+						<tr><td>4</td><td>40</td><td>CL_PARENTESIS_1</td><td>(</td><td>1</td><td>24</td></tr>
+						<tr><td>5</td><td>14</td><td>ID</td><td>Id_estudiante</td><td>2</td><td>2</td></tr>
+						<tr><td>6</td><td>34</td><td>PR_ENTERO</td><td>entero</td><td>2</td><td>16</td></tr>
+						<tr><td>7</td><td>44</td><td>CL_COMA</td><td>,</td><td>2</td><td>22</td></tr>
+						<tr><td>8</td><td>14</td><td>ID</td><td>Nombre</td><td>3</td><td>2</td></tr>
+						<tr><td>9</td><td>35</td><td>PR_CADENA</td><td>cadena</td><td>3</td><td>9</td></tr>
+						<tr><td>10</td><td>44</td><td>CL_COMA</td><td>,</td><td>3</td><td>15</td></tr>
+						<tr><td>11</td><td>14</td><td>ID</td><td>Fecha_nacimiento</td><td>4</td><td>2</td></tr>
+						<tr><td>12</td><td>37</td><td>PR_FECHA</td><td>fecha</td><td>4</td><td>19</td></tr>
+						<tr><td>13</td><td>41</td><td>CL_PARENTESIS_2</td><td>)</td><td>5</td><td>1</td></tr>
+						<tr><td>14</td><td>59</td><td>CL_FL</td><td>;</td><td>5</td><td>2</td></tr>
+						<tr><td>15</td><td>22</td><td>PR_INSERTAR</td><td>INSERTAR</td><td>7</td><td>1</td></tr>
+						<tr><td>16</td><td>23</td><td>PR_EN</td><td>EN</td><td>7</td><td>10</td></tr>
+						<tr><td>17</td><td>14</td><td>ID</td><td>Estudiantes</td><td>7</td><td>13</td></tr>
+						<tr><td>18</td><td>24</td><td>PR_VALORES</td><td>VALORES</td><td>7</td><td>25</td></tr>
+						<tr><td>19</td><td>40</td><td>CL_PARENTESIS_1</td><td>(</td><td>7</td><td>32</td></tr>
+						<tr><td>20</td><td>10</td><td>ENTERO</td><td>0</td><td>7</td><td>33</td></tr>
+						<tr><td>21</td><td>44</td><td>CL_COMA</td><td>,</td><td>7</td><td>34</td></tr>
+						<tr><td>22</td><td>11</td><td>CADENA</td><td>Pepito Gímenez</td><td>7</td><td>35</td></tr>
+						<tr><td>23</td><td>44</td><td>CL_COMA</td><td>,</td><td>7</td><td>51</td></tr>
+						<tr><td>24</td><td>13</td><td>FECHA</td><td>02/02/2012</td><td>7</td><td>52</td></tr>
+						<tr><td>25</td><td>41</td><td>CL_PARENTESIS_2</td><td>)</td><td>7</td><td>64</td></tr>
+						<tr><td>26</td><td>59</td><td>CL_FL</td><td>;</td><td>7</td><td>65</td></tr>					</tbody>
+				</table>
+			</div>
+		<footer class="bg - light p - 4">
+			<p class="text-center text-muted">José Daniel López Gonzalez | 201503836<br/>Facultad de Ingenieria - Organización de lenguajes y compiladores 1<br>Universidad de San Carlos De Guatemala</p>
+		</footer>
+		<script src= "https://code.jquery.com/jquery-3.5.1.slim.min.js " integrity= "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin= "anonymous" ></ script >
+		<script src= "https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js " integrity= "sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin= "anonymous" ></ script >
+		<script src= "https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js " integrity= "sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin= "anonymous" ></ script >
+	</ body>
+</ html>

@@ -9,6 +9,7 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static OLC1_SQL.Program;
 
 namespace OLC1_SQL
 {
@@ -21,7 +22,7 @@ namespace OLC1_SQL
         bool flagCarpeta = false;
         bool flagEditado = false;
         String pathArchivo = "";
-        String pathCarpeta = "";
+        //String pathCarpeta = "";
         String nombreArchivo = "Sin_titulo";
 
         Archivo archivo = new Archivo();
@@ -273,6 +274,11 @@ namespace OLC1_SQL
 
                 analisisSintactico();
 
+                if(listaErroresSintacticos.Count() == 0)
+                {
+                    ejecutarInstrucciones();
+                }
+
                 generarReportes();
             } else
             {
@@ -297,13 +303,25 @@ namespace OLC1_SQL
 
             Parser ps = new Parser(this.listaTokens);
             raiz = ps.Pars();
+            listaErroresSintacticos = ps.getErroes();
+            
+            escribirLinea("\t* Errores sintácticos: " + listaErroresSintacticos.Count());
+        }
+
+        private void ejecutarInstrucciones()
+        {
+            ArbolAST ast = new ArbolAST(this.raiz);
+            
+            ast.graficarArbol();
+            escribirLinea("\t* Árbol AST generado...");
+            ast.ejecutarAcciones();
         }
 
         private void generarReportes()
         {
             escribirLinea(" - Generando los reportes...");
 
-            pathCarpeta = @"C:\Users\JOSED\Documents\Reportes\SQL-es";
+            //pathCarpeta = @"C:\Users\JOSED\source\repos\-OLC1-PY1_201503836\Reportes";
 
             String descripcion = "Reporte de todos los toquens reconocidos por el programa al ejecutar el Scanner()";
             Archivo a = new Archivo();

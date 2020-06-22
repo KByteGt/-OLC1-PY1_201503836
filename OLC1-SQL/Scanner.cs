@@ -110,12 +110,12 @@ namespace OLC1_SQL
                         else if (c == 34) // "
                         {
                             estado = 70;
-                            lexema += c;
+                            //lexema += c;
                         }
                         else if(c == 39) // '
                         {
                             estado = 50;
-                            lexema += c;
+                            //lexema += c;
                         }
                         else if (c.Equals(10) || c.Equals(13) || c.GetHashCode().Equals(CRLF)) //CRLF
                         {
@@ -319,8 +319,11 @@ namespace OLC1_SQL
                         if(c == 34)
                         {
                             estado = 71;
+                        } else
+                        {
+                            lexema += c;
                         }
-                        lexema += c;
+                        
                         break;
                     case 71: //Estado 71, aceptar cadena
                         agregarToken(TokenSQL.CADENA, lexema, tempFila, tempColumna);
@@ -349,7 +352,7 @@ namespace OLC1_SQL
                         else if(c == 39)
                         {
                             estado = 52;
-                            lexema += c;
+                            //lexema += c;
                         }
                         else
                         {

@@ -1,1 +1,7 @@
-﻿Create table tabla1
+﻿CREAR TABLA Estudiantes(
+	Id_estudiante entero,
+	Nombre cadena,
+	Fecha_nacimiento fecha
+);
+
+INSERTAR EN Estudiantes VALORES(0,"Pepito Gímenez",'02/02/2012');

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,9 @@ namespace OLC1_SQL
     {
         String ruta = "";
         String entrada = "";
+
+        String nombreDot = "arbolAST.dot";
+        String nombreImg = "arbolAST.jpg";
 
         public Archivo()
         {
@@ -61,6 +65,37 @@ namespace OLC1_SQL
             {
                 
             }
+        }
+
+        public void crearDot(String path, String txt)
+        {
+            try
+            {
+                StreamWriter sw = new StreamWriter(path+"\\"+nombreDot, false, Encoding.UTF8);
+                sw.WriteLine(txt);
+                sw.Close();
+            }
+            catch (InvalidCastException e)
+            {
+
+            }
+        }
+
+        public void crearImg(String path)
+        {
+            Console.WriteLine("Generadno imagen ....");
+            Console.WriteLine("dot -Tjpg " + path + "\\" + nombreDot + " -o " + path + "\\" + nombreImg);
+            ProcessStartInfo si = new ProcessStartInfo("dot.exe");
+            si.Arguments = "dot -Tjpg " + path + "\\" + nombreDot + " -o " + path + "\\" + nombreImg;
+            try
+            {
+                Process.Start(si);
+            }
+            catch (Exception)
+            {
+
+            }
+            
         }
     }
 }
