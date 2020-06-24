@@ -1,0 +1,20 @@
+﻿CREAR TABLA Estudiantes(
+	Id_estudiante entero,
+	Nombre cadena,
+	Fecha_nacimiento fecha
+);
+
+CREAR TABLA Curso(
+	Id_curso entero,
+	Nombre cadena,
+	Creditos entero
+);
+
+
+INSERTAR EN Estudiantes VALORES(1,"Pepito Gímenez",'02/02/2012');
+INSERTAR EN Estudiantes VALORES(2,"José López",'03/03/2013');
+INSERTAR EN Estudiantes VALORES(3,"José López G",'03/03/2013');
+INSERTAR EN Curso VALORES(0778,"Compiladores 2", 10);
+INSERTAR EN Estudiantes VALORES(5,"José Lópe",'03/03/2013');
+INSERTAR EN Curso VALORES(0777,"Compiladores 1", 7);
+

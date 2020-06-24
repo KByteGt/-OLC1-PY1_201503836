@@ -11,6 +11,10 @@ namespace OLC1_SQL
     {
         String nombrePestaña, titulo, descripcion, html;
         List<Token> lista;
+        public HTML()
+        {
+
+        }
         public HTML(String nombre, String titulo, String descripcion)
         {
             this.nombrePestaña = nombre;
@@ -27,6 +31,20 @@ namespace OLC1_SQL
             html += getTabla();
             html += getFooter();
 
+            return html;
+        }
+
+        public String crear(List<TablaSQL> lista)
+        {
+            this.nombrePestaña = "SQL-es";
+            html = getHeaderSQL();
+
+            foreach(TablaSQL t in lista)
+            {
+                html += t.getHtml() + "\n";
+            }
+
+            html += getFooterSQL();
             return html;
         }
 
@@ -84,14 +102,40 @@ namespace OLC1_SQL
 
         private String getFooter()
         {
-            return "\t\t<footer class=\"bg - light p - 4\">\n" +
+            return "\t\t<footer class=\"bg-light p-4\">\n" +
                     "\t\t\t<p class=\"text-center text-muted\">José Daniel López Gonzalez | 201503836<br/>Facultad de Ingenieria - Organización de lenguajes y compiladores 1<br>Universidad de San Carlos De Guatemala</p>\n" +
                     "\t\t</footer>\n" +
-                    "\t\t<script src= \"https://code.jquery.com/jquery-3.5.1.slim.min.js \" integrity= \"sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj\" crossorigin= \"anonymous\" ></ script >\n" +
-                    "\t\t<script src= \"https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js \" integrity= \"sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo\" crossorigin= \"anonymous\" ></ script >\n" +
-                    "\t\t<script src= \"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js \" integrity= \"sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI\" crossorigin= \"anonymous\" ></ script >\n" +
-                    "\t</ body>\n" +
-                    "</ html>";
+                    "\t\t<script src= \"https://code.jquery.com/jquery-3.5.1.slim.min.js \" integrity= \"sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj\" crossorigin= \"anonymous\" ></script >\n" +
+                    "\t\t<script src= \"https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js \" integrity= \"sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo\" crossorigin= \"anonymous\" ></script >\n" +
+                    "\t\t<script src= \"https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js \" integrity= \"sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI\" crossorigin= \"anonymous\" ></script >\n" +
+                    "\t</body>\n" +
+                    "</html>";
+        }
+
+        private String getHeaderSQL()
+        {
+            return  "<!doctype html>\n<html lang = 'es'>\n"+
+                    "\t<head>\n"+
+                    "\t\t<meta charset = 'utf-8'>\n"+
+                    "\t\t<meta name = 'viewport' content = 'width=device-width, initial-scale=1, shrink-to-fit=no'>\n" +
+                    "\t\t<link rel = 'stylesheet' href = 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css' integrity = 'sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk' crossorigin = 'anonymous'>\n" +
+                    "\t\t<title> SQL - es </title>\n" +
+                    "\t</head>\n"+
+                    "\t<body class='bg-light'>\n"+
+                    "\t\t<div class='container'>\n"+
+                    "\t\t\t<h1 class='text-center text-dark mb-4'>SQL<span class='badge badge-secondary'>ES</span></h1>\n";
+        }
+
+        private String getFooterSQL()
+        {
+            return  "\t</div>\n\t<footer class='bg-dark p-4'>" +
+                    "\t\t<p class='text-center text-muted'>José Daniel López Gonzalez | 201503836<br/>Facultad de Ingenieria - Organización de lenguajes y compiladores 1<br>Universidad de San Carlos De Guatemala</p>\n"+
+		            "\t</footer>\n"+
+		            "\t\t<script src = 'https://code.jquery.com/jquery-3.5.1.slim.min.js' integrity= 'sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj' crossorigin= 'anonymous' ></script>\n"+
+                    "\t\t<script src= 'https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js' integrity= 'sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo' crossorigin= 'anonymous' ></script>\n"+
+                    "\t\t<script src= 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js' integrity= 'sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI' crossorigin= 'anonymous' ></script>\n"+
+                    "\t</body>\n"+
+                    "</html>";
         }
     }
 }

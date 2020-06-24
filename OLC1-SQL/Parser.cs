@@ -22,7 +22,7 @@ namespace OLC1_SQL
             this.listaErrores = new List<Token>();
         }
         /// ////////////////////////////////////////////////////////////////////////
-        Token preanalisis, temp;
+        Token preanalisis;
         int index = 1, id = 1;
         String errorMessage = "";
 
@@ -51,6 +51,7 @@ namespace OLC1_SQL
             else
             {
                 //Error
+                
                 insertarError("un token[" + terminal.ToString() + "]", preanalisis);
                 panico();
             }
@@ -745,10 +746,12 @@ namespace OLC1_SQL
 
         private void panico()
         {
+            Console.WriteLine(" ** Metodo de panico **");
             while(preanalisis.getToken() != TokenSQL.CL_FL && preanalisis != null)
             {
                 //Saltar tokens hasta encontrar ";"
                 preanalisis = getToken();
+                index++;
             }
 
             if(preanalisis.getToken() == TokenSQL.CL_FL)
@@ -769,6 +772,7 @@ namespace OLC1_SQL
         {
             errorMessage = "Se esperaba " + valorCorrecto + ", se encontro << " + token.getLexema() + " >>";   
             listaErrores.Add(new Token(TokenSQL.ERROR_SINTACTICO, errorMessage, token.getFila(), token.getColumna()));
+            Console.WriteLine(errorMessage);
         }
 
         public List<Token> getErroes()

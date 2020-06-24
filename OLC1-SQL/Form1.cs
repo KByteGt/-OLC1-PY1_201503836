@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace OLC1_SQL
         List<Token> listaTokens;
         List<Token> listaErroresLexicos;
         List<Token> listaErroresSintacticos;
+        List<TablaSQL> listaTablas;
         NodoAST raiz;
 
 
@@ -83,6 +85,16 @@ namespace OLC1_SQL
             ejecutarAnalisis();
         }
 
+        private void mostrarTokensToolStripMenuItem_Click(object sender, EventArgs e)
+        {   //Mostrar reporte de tokens
+            openFile(pathCarpeta + "\\reporteTokens.html");
+        }
+
+        private void mostrarErroresToolStripMenuItem_Click(object sender, EventArgs e)
+        {   //Mostrar reporte de errores
+            openFile(pathCarpeta + "\\reporteErr.html");
+        }
+
         public Form1()
         {
             ///////////////////////////////////////////////
@@ -95,6 +107,7 @@ namespace OLC1_SQL
             listaTokens = new List<Token>();
             listaErroresLexicos = new List<Token>();
             listaErroresSintacticos = new List<Token>();
+            listaTablas = new List<TablaSQL>();
 
             // File Dialog
             openFileDialog1 = new OpenFileDialog()
@@ -263,6 +276,11 @@ namespace OLC1_SQL
             consola.Text = txt_consola;
         }
 
+        private void verTablasToolStripMenuItem_Click(object sender, EventArgs e)
+        {   //Mostrar tablas
+            mostrarTablas();
+        }
+
         //Analisis
 
         private void ejecutarAnalisis()
@@ -310,11 +328,13 @@ namespace OLC1_SQL
 
         private void ejecutarInstrucciones()
         {
-            ArbolAST ast = new ArbolAST(this.raiz);
+            ArbolAST ast = new ArbolAST(this.raiz, this.listaTablas);
             
             ast.graficarArbol();
             escribirLinea("\t* Árbol AST generado...");
             ast.ejecutarAcciones();
+
+            escribirLinea("\t* Tablas: " + listaTablas.Count());
         }
 
         private void generarReportes()
@@ -328,8 +348,29 @@ namespace OLC1_SQL
             HTML html = new HTML("Reporte Tokens", "Reporte de Tokens - SQL-es", descripcion);
             a.crearHTML(pathCarpeta, "reporteTokens", html.crear(listaTokens));
 
+            foreach(Token t in listaErroresSintacticos)
+            {
+                listaErroresLexicos.Add(t);
+            }
+
             html = new HTML("Reporte De Errores", "Reporte de Errores - SQL-es", "Errores encontrados...");
             a.crearHTML(pathCarpeta, "reporteErr", html.crear(listaErroresLexicos));
         }
+
+        private void mostrarTablas()
+        {
+            escribirLinea("\t> tablas.html...");
+
+            Archivo a = new Archivo();
+            HTML html = new HTML();
+            a.crearHTML(pathCarpeta, "tablas", html.crear(this.listaTablas));
+            openFile(pathCarpeta + "\\tablas.html");
+        }
+
+        private void openFile(String ruta)
+        {
+            Process.Start(ruta);
+        }
+
     }
 }

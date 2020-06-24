@@ -1,4 +1,4 @@
-CREAR TABLA Departamento(
+﻿CREAR TABLA Departamento(
 	Id_departamento entero,
 	nombre cadena
 );
@@ -28,54 +28,54 @@ INSERTAR EN Departamento VALORES(21,"Zacapa");
 
 CREAR TABLA Municipios( Id_municipio entero, Nombre cadena, Id_departamento entero);
 
-INSERTAR EN Municipio Valores(0,"Coban",1);
-INSERTAR EN Municipio Valores(1,"San PedroCarchá",1);
-INSERTAR EN Municipio Valores(2,"Cubulcu",2);
-INSERTAR EN Municipio Valores(3,"Salamá",2);
-INSERTAR EN Municipio Valores(4,"Chimaltenango",3);
-INSERTAR EN Municipio Valores(5,"Acatenango",3);
-INSERTAR EN Municipio Valores(6,"Chiquimula",4);
-INSERTAR EN Municipio Valores(7,"Jocotán",4);
-INSERTAR EN Municipio Valores(8,"Flores",5);
-INSERTAR EN Municipio Valores(9,"Dolores",5);
-INSERTAR EN Municipio Valores(10,"Guastatoya",6);
-INSERTAR EN Municipio Valores(11,"Morazán",6);
-INSERTAR EN Municipio Valores(12,"Santa Cruz del Quiché",7);
-INSERTAR EN Municipio Valores(13,"Canillá",7);
-INSERTAR EN Municipio Valores(14,"Escuintla",8);
-INSERTAR EN Municipio Valores(15,"Iztapa",8);
-INSERTAR EN Municipio Valores(16,"Guatemala",9);
-INSERTAR EN Municipio Valores(17,"Mixco",9);
-INSERTAR EN Municipio Valores(18,"Aguacatán",10);
-INSERTAR EN Municipio Valores(19,"Huehuetenango",10);
-INSERTAR EN Municipio Valores(20,"Puerto Barrios",11);
-INSERTAR EN Municipio Valores(21,"Livingston",11);
-INSERTAR EN Municipio Valores(22,"Jalapa",12);
-INSERTAR EN Municipio Valores(23,"San Pedro Pinula",12);
-INSERTAR EN Municipio Valores(24,"Jutiapa",13);
-INSERTAR EN Municipio Valores(25,"Asunción Mita",13);
-INSERTAR EN Municipio Valores(26,"Almolonga",14);
-INSERTAR EN Municipio Valores(27,"Cabricán",14);
-INSERTAR EN Municipio Valores(28,"Champerico",15);
-INSERTAR EN Municipio Valores(29,"El Asintal",15);
-INSERTAR EN Municipio Valores(30,"Alotenango",16);
-INSERTAR EN Municipio Valores(31,"Antigua Guatemala",16);
-INSERTAR EN Municipio Valores(32,"San Marcos",17);
-INSERTAR EN Municipio Valores(33,"Ayutla",17);
-INSERTAR EN Municipio Valores(34,"Cuilapa",18);
-INSERTAR EN Municipio Valores(35,"Chiquimulilla",18);
-INSERTAR EN Municipio Valores(36,"Sololá",19);
-INSERTAR EN Municipio Valores(37,"Concepción",19);
-INSERTAR EN Municipio Valores(38,"Mazatenango",20);
-INSERTAR EN Municipio Valores(39,"Chicacao",20);
-INSERTAR EN Municipio Valores(40,"Totonicapán",21);
-INSERTAR EN Municipio Valores(41,"San Bartolo",21);
-INSERTAR EN Municipio Valores(42,"Cabañas",22);
-INSERTAR EN Municipio Valores(43,"Estanzuela",22);
+INSERTAR EN Municipios Valores(0,"Coban",1);
+INSERTAR EN Municipios Valores(1,"San Pedro Carchá",1);
+INSERTAR EN Municipios Valores(2,"Cubulcu",2);
+INSERTAR EN Municipios Valores(3,"Salamá",2);
+INSERTAR EN Municipios Valores(4,"Chimaltenango",3);
+INSERTAR EN Municipios Valores(5,"Acatenango",3);
+INSERTAR EN Municipios Valores(6,"Chiquimula",4);
+INSERTAR EN Municipios Valores(7,"Jocote",4);
+INSERTAR EN Municipios Valores(8,"Flores",5);
+INSERTAR EN Municipios Valores(9,"Dolores",5);
+INSERTAR EN Municipios Valores(10,"Guastatoya",6);
+INSERTAR EN Municipios Valores(11,"Morazán",6);
+INSERTAR EN Municipios Valores(12,"Santa Cruz del Quiché",7);
+INSERTAR EN Municipios Valores(13,"Canillá",7);
+INSERTAR EN Municipios Valores(14,"Escuintla",8);
+INSERTAR EN Municipios Valores(15,"Iztapa",8);
+INSERTAR EN Municipios Valores(16,"Guatemala",9);
+INSERTAR EN Municipios Valores(17,"Mixco",9);
+INSERTAR EN Municipios Valores(18,"Aguacatán",10);
+INSERTAR EN Municipios Valores(19,"Huehuetenango",10);
+INSERTAR EN Municipios Valores(20,"Puerto Barrios",11);
+INSERTAR EN Municipios Valores(21,"Livingston",11);
+INSERTAR EN Municipios Valores(22,"Jalapa",12);
+INSERTAR EN Municipios Valores(23,"San Pedro Pinula",12);
+INSERTAR EN Municipios Valores(24,"Jutiapa",13);
+INSERTAR EN Municipios Valores(25,"Asunción Mita",13);
+INSERTAR EN Municipios Valores(26,"Almolonga",14);
+INSERTAR EN Municipios Valores(27,"Cabricón",14);
+INSERTAR EN Municipios Valores(28,"Champerico",15);
+INSERTAR EN Municipios Valores(29,"El Asintal",15);
+INSERTAR EN Municipios Valores(30,"Alotenango",16);
+INSERTAR EN Municipios Valores(31,"Antigua Guatemala",16);
+INSERTAR EN Municipios Valores(32,"San Marcos",17);
+INSERTAR EN Municipios Valores(33,"Ayutla",17);
+INSERTAR EN Municipios Valores(34,"Cuilapa",18);
+INSERTAR EN Municipios Valores(35,"Chiquimulilla",18);
+INSERTAR EN Municipios Valores(36,"Sololá",19);
+INSERTAR EN Municipios Valores(37,"Concepción",19);
+INSERTAR EN Municipios Valores(38,"Mazatenango",20);
+INSERTAR EN Municipios Valores(39,"Chicacao",20);
+INSERTAR EN Municipios Valores(40,"Totonicapán",21);
+INSERTAR EN Municipios Valores(41,"San Bartolo",21);
+INSERTAR EN Municipios Valores(42,"Cabañas",22);
+INSERTAR EN Municipios Valores(43,"Estanzuela",22);
 
 CREAR TABLA Zona(
 
-Id_zona entero, Nombre carácter, Id_municipio entero );
+Id_zona entero, Nombre cadena, Id_municipio entero );
 
 INSERTAR EN Zona VALORES(0,"Zona 1",1);
 INSERTAR EN Zona VALORES(1,"Zona 1",2);
@@ -166,9 +166,9 @@ INSERTAR EN Zona VALORES(85,"Zona 2",42);
 INSERTAR EN Zona VALORES(86,"Zona 2",43);
 INSERTAR EN Zona VALORES(87,"Zona 2",44);
 
-
+/*
 SELECCIONAR * DE Estudiantes
 SELECCIONAR Zona.nombre  DE Estudiantes
 SELECCIONAR Zona.nombre como zona  DE Estudiantes
 SELECCIONAR Zona.nombre como zona, Municipio.nombre como municipio DE Estudiantes
-Seleccionar Zona.*
+Seleccionar Zona.* */

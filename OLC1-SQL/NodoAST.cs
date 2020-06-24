@@ -12,6 +12,7 @@ namespace OLC1_SQL
         private int id;
         TokenSQL tipo;
         String valor;
+        private Token token;
         private List<NodoAST> hijos;
 
         public NodoAST(int id, String noTerminal)
@@ -20,11 +21,12 @@ namespace OLC1_SQL
             this.valor = noTerminal;
             hijos = new List<NodoAST>();
 
-            setId(noTerminal);
+            setId(id, noTerminal);
         }
 
         public NodoAST(Token token)
         {
+            this.token = token;
             this.tipo = token.getToken();
             this.valor = token.getLexema();
             hijos = new List<NodoAST>();
@@ -32,6 +34,10 @@ namespace OLC1_SQL
             setId(token);
         }
 
+        public Token getToken()
+        {
+            return token;
+        }
 
         public int getId()
         {
@@ -49,7 +55,7 @@ namespace OLC1_SQL
             }
         }
 
-        public void setId(String noTerminal)
+        public void setId(int id, String noTerminal)
         {
             int x = noTerminal.GetHashCode() * 100 + id;
             if (x < 0)
