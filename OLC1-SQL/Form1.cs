@@ -95,6 +95,11 @@ namespace OLC1_SQL
             openFile(pathCarpeta + "\\reporteErr.html");
         }
 
+        private void verTablasToolStripMenuItem_Click(object sender, EventArgs e)
+        {   //Mostrar tablas
+            mostrarTablas();
+        }
+
         public Form1()
         {
             ///////////////////////////////////////////////
@@ -276,10 +281,7 @@ namespace OLC1_SQL
             consola.Text = txt_consola;
         }
 
-        private void verTablasToolStripMenuItem_Click(object sender, EventArgs e)
-        {   //Mostrar tablas
-            mostrarTablas();
-        }
+       
 
         //Analisis
 
@@ -318,8 +320,16 @@ namespace OLC1_SQL
         private void analisisSintactico()
         {
             escribirLinea(" - Ejecutando análisis Sintáctico...");
-
-            Parser ps = new Parser(this.listaTokens);
+            //Limpiar lista de comentarios
+            List<Token> tempList = new List<Token>();
+            foreach(Token t in listaTokens)
+            {
+                if(t.getToken() != TokenSQL.COMENTARIO_BLOQUE && t.getToken() != TokenSQL.COMENTARIO_LINEA)
+                {
+                    tempList.Add(t);
+                }
+            }
+            Parser ps = new Parser(tempList);
             raiz = ps.Pars();
             listaErroresSintacticos = ps.getErroes();
             

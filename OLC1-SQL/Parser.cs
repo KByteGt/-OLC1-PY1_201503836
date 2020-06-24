@@ -320,13 +320,15 @@ namespace OLC1_SQL
 
         private void I_SELECCIONAR_2(NodoAST raiz)
         {
-            /*I_SELECCIONAR_2	⇒ 	, L_YO
+            /*I_SELECCIONAR_2	⇒  L_YO
 			 *                  |
 			 */
             switch (preanalisis.getToken())
             {
-                case TokenSQL.CL_COMA: // Coma (,)
-                    match(TokenSQL.CL_COMA, raiz);
+                case TokenSQL.PR_Y: // Palabra reservada Y
+                     L_YO(raiz);
+                    break;
+                case TokenSQL.PR_O: // Palabra reservada O
                     L_YO(raiz);
                     break;
                 default:
@@ -466,10 +468,11 @@ namespace OLC1_SQL
             match(TokenSQL.PR_DE, nodo);
             match(TokenSQL.ID, nodo);
 
-            NodoAST nodoA = new NodoAST(id, "DONDE");
-            sumarID();
-            I_ELIMINAR_1(nodoA);
-            nodo.insertarHijo(nodoA);
+            //NodoAST nodoA = new NodoAST(id, "DONDE");
+            //sumarID();
+            //I_ELIMINAR_1(nodoA);
+            //nodo.insertarHijo(nodoA);
+            I_ELIMINAR_1(nodo);
 
             match(TokenSQL.CL_FL, nodo);
 
@@ -484,11 +487,16 @@ namespace OLC1_SQL
             switch (preanalisis.getToken())
             {
                 case TokenSQL.PR_DONDE: // Palabra reservada DONDE
-                    match(TokenSQL.PR_DONDE, raiz);
+                    NodoAST nodoA = new NodoAST(id, "DONDE");
+                    sumarID();
 
-                    CONDICION(raiz);
+                    match(TokenSQL.PR_DONDE, nodoA);
 
-                    I_ELIMINAR_2(raiz);
+                    CONDICION(nodoA);
+
+                    I_ELIMINAR_2(nodoA);
+
+                    raiz.insertarHijo(nodoA);
                     break;
                 default:
                     //No hacer nada
@@ -498,14 +506,15 @@ namespace OLC1_SQL
 
         private void I_ELIMINAR_2(NodoAST raiz)
         {
-            /*I_ELIMINAR_2	⇒	, L_YO
+            /*I_ELIMINAR_2	⇒	L_YO
 			 *              |             
 			 */
             switch (preanalisis.getToken())
             {
-                case TokenSQL.CL_COMA: // Coma (,)
-                    match(TokenSQL.CL_COMA, raiz);
-
+                case TokenSQL.PR_Y: // Palabra reservada Y
+                    L_YO(raiz);
+                    break;
+                case TokenSQL.PR_O: // Palabra reservada O
                     L_YO(raiz);
                     break;
                 default:
@@ -564,14 +573,15 @@ namespace OLC1_SQL
 
         private void I_ACTUALIZAR_2(NodoAST raiz)
         {
-            /*I_ACTUALIZAR_2	⇒	, L_YO
+            /*I_ACTUALIZAR_2	⇒	L_YO
 			 *                  |
 			 */
             switch (preanalisis.getToken())
             {
-                case TokenSQL.CL_COMA: // Coma (,)
-                    match(TokenSQL.CL_COMA, raiz);
-
+                case TokenSQL.PR_Y: // Palabra reservada Y
+                    L_YO(raiz);
+                    break;
+                case TokenSQL.PR_O: // Palabra reservada O
                     L_YO(raiz);
                     break;
                 default:

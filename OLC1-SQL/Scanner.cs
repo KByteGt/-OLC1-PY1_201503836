@@ -421,6 +421,8 @@ namespace OLC1_SQL
                     return TokenSQL.PR_DE;
                 case "DONDE":
                     return TokenSQL.PR_DONDE;
+                case "ELIMINAR":
+                    return TokenSQL.PR_ELIMINAR;
                 case "EN":
                     return TokenSQL.PR_EN;
                 case "ENTERO":
