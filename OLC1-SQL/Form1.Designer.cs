@@ -62,6 +62,7 @@
             this.consola = new System.Windows.Forms.RichTextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -305,7 +306,7 @@
             this.entrada.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.entrada.Dock = System.Windows.Forms.DockStyle.Fill;
             this.entrada.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.entrada.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.entrada.ForeColor = System.Drawing.Color.White;
             this.entrada.Location = new System.Drawing.Point(50, 0);
             this.entrada.Name = "entrada";
             this.entrada.Size = new System.Drawing.Size(478, 341);
@@ -346,6 +347,10 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Title = "SQL - es";
+            // 
+            // timer2
+            // 
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // Form1
             // 
@@ -407,6 +412,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem acercaDeToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 

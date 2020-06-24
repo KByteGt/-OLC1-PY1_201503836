@@ -17,7 +17,7 @@ namespace OLC1_SQL
     public partial class Form1 : Form
     {
         //Variables globales
-        int contadorPos, altura, numFila, col, row, temp;
+        int contadorPos, altura, numFila, col, row, temp, x;
         String txt_consola = " Consola: \n\n ";
         bool flagArchivo = false;
         bool flagCarpeta = false;
@@ -107,6 +107,9 @@ namespace OLC1_SQL
             timer1.Interval = 10;
             timer1.Start();
 
+            //timer2.Interval = 1200;
+            //timer2.Start();
+
             statusProgresBar.Value = 0;
 
             listaTokens = new List<Token>();
@@ -149,12 +152,18 @@ namespace OLC1_SQL
         {
             numLineTxt.Refresh();
             labelRowColUpdate();
+            //pintarPalabras();
 
             if (entrada.Modified)
             {
                 flagEditado = true;
             }
           
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            pintarPalabras();
         }
 
 
@@ -291,6 +300,7 @@ namespace OLC1_SQL
             if(entrada.Text.Length > 0)
             {
                 analisisLexico();
+                pintarPalabras();
 
                 analisisSintactico();
 
@@ -335,6 +345,7 @@ namespace OLC1_SQL
             
             escribirLinea("\t* Errores sintácticos: " + listaErroresSintacticos.Count());
         }
+
 
         private void ejecutarInstrucciones()
         {
@@ -382,5 +393,72 @@ namespace OLC1_SQL
             Process.Start(ruta);
         }
 
+        private void pintarPalabras()
+        {
+            if(listaTokens.Count() > 0)
+            {
+                x = 0;
+                foreach (Token t in listaTokens)
+                {
+                    x = entrada.GetFirstCharIndexFromLine(t.getFila() - 1);
+                    if(t.getToken() == TokenSQL.CADENA || t.getToken() == TokenSQL.FECHA)
+                    {
+                        entrada.Select(x + t.getColumna() - 1, t.getLexema().Length +2);
+                    }
+                    else
+                    {
+                        entrada.Select(x + t.getColumna() - 1, t.getLexema().Length);
+                    }
+                    
+                    entrada.SelectionColor = colorPiker(t.getToken());
+                }
+
+                entrada.Select(0, 0);
+            }
+           
+        }
+
+        private Color colorPiker(TokenSQL t)
+        {
+            switch (t)
+            {
+                case TokenSQL.PR_TABLA:
+                    return Color.DarkOrchid;
+                case TokenSQL.PR_INSERTAR:
+                    return Color.DarkOrchid;
+                case TokenSQL.PR_ELIMINAR:
+                    return Color.DarkOrchid;
+                case TokenSQL.PR_ACTUALIZAR:
+                    return Color.DarkOrchid;
+                case TokenSQL.FECHA:
+                    return Color.Peru;
+                case TokenSQL.ENTERO:
+                    return Color.SteelBlue;
+                case TokenSQL.FLOTANTE:
+                    return Color.SteelBlue;
+                case TokenSQL.CADENA:
+                    return Color.Teal;
+                case TokenSQL.COMENTARIO_BLOQUE:
+                    return Color.Gray;
+                case TokenSQL.COMENTARIO_LINEA:
+                    return Color.Gray;
+                case TokenSQL.ID:
+                    return Color.Sienna;
+                case TokenSQL.CL_IGUAL:
+                    return Color.Firebrick;
+                case TokenSQL.CL_DIFERENTE:
+                    return Color.Firebrick;
+                case TokenSQL.CL_MAYOR_IGUAL:
+                    return Color.Firebrick;
+                case TokenSQL.CL_MENOR_IGUAL:
+                    return Color.Firebrick;
+                case TokenSQL.CL_MAYOR:
+                    return Color.Firebrick;
+                case TokenSQL.CL_MENOR:
+                    return Color.Firebrick;
+                default:
+                    return Color.White;
+            }
+        }
     }
 }
