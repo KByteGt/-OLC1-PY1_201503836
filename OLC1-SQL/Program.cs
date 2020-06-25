@@ -65,20 +65,10 @@ namespace OLC1_SQL
 
         static List<Token> listaTokens;
         static List<Token> listaErroresLexicos;
-        static List<Token> listaErroresSintacticos;
-
-        static Color morado;
-        static Color naranja;
-        static Color negro;
-        static Color azul;
-        static Color verde;
-        static Color gris;
-        static Color rojo;
-        static Color cafe;
 
         static String ruta;
 
-        public static String pathCarpeta = @"C:\Users\JOSED\source\repos\-OLC1-PY1_201503836\Reportes";
+        public static String pathArchivo = @"C:\Users\JOSED\source\repos\-OLC1-PY1_201503836\Reportes";
        
 
         /// <summary>

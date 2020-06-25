@@ -1,0 +1,26 @@
+﻿/*
+CREAR TABLA  EliminarTabla(
+	Id_curso entero,
+	Nombre cadena,
+	Creditos entero,
+    Creditos2 entero,
+    Creditos3 entero
+);
+
+INSERTAR EN EliminarTabla VALORES(10,"Error",12,14,12);
+*/
+
+ACTUALIZAR EliminarTabla
+ESTABLECER (Nombre="Curso Update");
+
+ACTUALIZAR Curso
+ESTABLECER (Creditos=100)
+DONDE Creditos>9;
+
+
+
+
+
+
+
+

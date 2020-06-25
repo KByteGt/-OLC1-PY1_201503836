@@ -84,9 +84,9 @@ namespace OLC1_SQL
         public void crearImg(String path)
         {
             Console.WriteLine("Generadno imagen ....");
-            Console.WriteLine("dot -Tjpg " + path + "\\" + nombreDot + " -o " + path + "\\" + nombreImg);
-            ProcessStartInfo si = new ProcessStartInfo("dot.exe");
-            si.Arguments = "dot -Tjpg " + path + "\\" + nombreDot + " -o " + path + "\\" + nombreImg;
+            Console.WriteLine("dot -Tjpeg " + path + "\\" + nombreDot + " -o " + path + "\\" + nombreImg);
+            ProcessStartInfo si = new ProcessStartInfo(@"C:\Program Files (x86)\Graphviz2.38\bin\dot.exe");
+            si.Arguments = "-Tjpg " + path + "\\" + nombreDot + " -o " + path + "\\" + nombreImg;
             try
             {
                 Process.Start(si);

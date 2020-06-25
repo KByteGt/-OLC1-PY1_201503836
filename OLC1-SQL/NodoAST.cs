@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static OLC1_SQL.Program;
 
 namespace OLC1_SQL
@@ -46,10 +43,11 @@ namespace OLC1_SQL
 
         public void setId(Token token)
         {
-            if(token != null)
+            if (token != null)
             {
                 this.id = ((int)token.getToken() * 1000 + token.getFila()) * 1000 + token.getColumna();
-            } else
+            }
+            else
             {
                 this.id = -1;
             }
@@ -103,14 +101,14 @@ namespace OLC1_SQL
 
         public String getNodoGraphviz()
         {
-            return "node"+id+" [label = \""+valor+"\"];\n\t";
+            return "node" + id + " [label = \"" + valor + "\"];\n\t";
         }
 
         public String getRutaGraphviz()
         {
             String temp = "";
 
-            foreach(NodoAST n in hijos)
+            foreach (NodoAST n in hijos)
             {
                 temp += "node" + id + " -> node" + n.getId() + ";\n\t";
             }

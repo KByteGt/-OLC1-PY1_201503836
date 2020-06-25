@@ -20,7 +20,7 @@ namespace OLC1_SQL
         int contadorPos, altura, numFila, col, row, temp, x;
         String txt_consola = " Consola: \n\n ";
         bool flagArchivo = false;
-        bool flagCarpeta = false;
+        //bool flagCarpeta = false;
         bool flagEditado = false;
         String pathArchivo = "";
         //String pathCarpeta = "";
@@ -87,12 +87,12 @@ namespace OLC1_SQL
 
         private void mostrarTokensToolStripMenuItem_Click(object sender, EventArgs e)
         {   //Mostrar reporte de tokens
-            openFile(pathCarpeta + "\\reporteTokens.html");
+            openFile(pathArchivo + "\\reporteTokens.html");
         }
 
         private void mostrarErroresToolStripMenuItem_Click(object sender, EventArgs e)
         {   //Mostrar reporte de errores
-            openFile(pathCarpeta + "\\reporteErr.html");
+            openFile(pathArchivo + "\\reporteErr.html");
         }
 
         private void verTablasToolStripMenuItem_Click(object sender, EventArgs e)
@@ -351,7 +351,7 @@ namespace OLC1_SQL
         {
             ArbolAST ast = new ArbolAST(this.raiz, this.listaTablas);
             
-            ast.graficarArbol();
+            ast.graficarArbol(pathArchivo);
             escribirLinea("\t* Árbol AST generado...");
             ast.ejecutarAcciones();
 
@@ -367,7 +367,7 @@ namespace OLC1_SQL
             String descripcion = "Reporte de todos los toquens reconocidos por el programa al ejecutar el Scanner()";
             Archivo a = new Archivo();
             HTML html = new HTML("Reporte Tokens", "Reporte de Tokens - SQL-es", descripcion);
-            a.crearHTML(pathCarpeta, "reporteTokens", html.crear(listaTokens));
+            a.crearHTML(pathArchivo, "reporteTokens", html.crear(listaTokens));
 
             foreach(Token t in listaErroresSintacticos)
             {
@@ -375,7 +375,7 @@ namespace OLC1_SQL
             }
 
             html = new HTML("Reporte De Errores", "Reporte de Errores - SQL-es", "Errores encontrados...");
-            a.crearHTML(pathCarpeta, "reporteErr", html.crear(listaErroresLexicos));
+            a.crearHTML(pathArchivo, "reporteErr", html.crear(listaErroresLexicos));
         }
 
         private void mostrarTablas()
@@ -384,8 +384,8 @@ namespace OLC1_SQL
 
             Archivo a = new Archivo();
             HTML html = new HTML();
-            a.crearHTML(pathCarpeta, "tablas", html.crear(this.listaTablas));
-            openFile(pathCarpeta + "\\tablas.html");
+            a.crearHTML(pathArchivo, "tablas", html.crear(this.listaTablas));
+            openFile(pathArchivo + "\\tablas.html");
         }
 
         private void openFile(String ruta)

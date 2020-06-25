@@ -1,13 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.PerformanceData;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static OLC1_SQL.Program;
 
 namespace OLC1_SQL
 {
+    class NodoActualizar
+    {
+        public String columna { get; set; }
+        public Token valor { get; set; }
+
+        public NodoActualizar(String col, Token t)
+        {
+            this.columna = col;
+            this.valor = t;
+        }
+    }
     class ArbolAST
     {
         private NodoAST raiz;
@@ -28,7 +36,7 @@ namespace OLC1_SQL
             return listaTablas;
         }
 
-        public void graficarArbol()
+        public void graficarArbol(String pathArchivo)
         {
             Console.WriteLine("-- Graficando el árbol AST");
 
@@ -38,8 +46,8 @@ namespace OLC1_SQL
             Console.WriteLine(dot);
 
             Archivo a = new Archivo();
-            a.crearDot(pathCarpeta, dot);
-            a.crearImg(pathCarpeta);
+            a.crearDot(pathArchivo, dot);
+            a.crearImg(pathArchivo);
         }
 
         private void getDot(NodoAST padre)
@@ -62,21 +70,31 @@ namespace OLC1_SQL
         private int estado = 0;
 
         private TablaSQL tabla, tempT;
-        private int indexTabla;
+        private int indexTabla, indexColumna;
         private bool encontrado;
         private String nombreTabla;
+        //Eliminiar
+        private bool condicionDonde;
+        private String condicionColumna1;
+        private TokenSQL condicionComparador1;
+        private Token condicionValor1;
+        //Actualizar
+        private List<NodoActualizar> listaUpdate;
+        private String nombreColumna;
+        private Token nuevoValor;
+
         public void ejecutarAcciones()
         {
             Console.WriteLine(" ** Ejecutando instrucciones **\n\n");
-            accion(0,this.raiz);
+            accion(0, this.raiz);
         }
 
         private void accion(int e, NodoAST padre)
         {
-            if(padre.getTipo() == TokenSQL.NO_TERMINAL)
+            if (padre.getTipo() == TokenSQL.NO_TERMINAL)
             {   //El nodo es un No terminal
                 estado = getEstado(padre.getValor());
-            } 
+            }
             else
             {   //El nodo es un terminal
                 ejecutar(e, padre.getTipo(), padre.getToken());
@@ -175,6 +193,165 @@ namespace OLC1_SQL
                             break;
                     }
                     break;
+                case 30:// ELIMINAR DE ID;| ELIMINAR DE ID DONDE ID = VALOR;
+                    switch (tipo)
+                    {
+                        case TokenSQL.ID: //Nombre tabla
+                            nombreTabla = token.getLexema();
+                            condicionDonde = false;
+                            break;
+                        case TokenSQL.PR_DONDE: //PR DONDE
+                            estado = 31;
+                            condicionDonde = true;
+                            break;
+                        case TokenSQL.CL_FL: //Fin de linea (;)
+                            //Ejecutar acción a eliminar
+                            Console.WriteLine("Eliminar de: " + nombreTabla);
+                            eliminarEnTabla();
+                            break;
+                        default:
+                            Console.WriteLine("[" + e + "] Token: " + token.getLexema());
+                            break;
+                    }
+                    break;
+                case 31: // Condicion DONDE - ELIMINAR: DONDE ID OP VALOR
+                    switch (tipo)
+                    {
+                        case TokenSQL.ID:
+                            condicionColumna1 = token.getLexema();
+                            Console.WriteLine("Columna condición: " + condicionColumna1);
+                            break;
+                        case TokenSQL.CL_IGUAL: // =
+                            condicionComparador1 = tipo;
+                            break;
+                        case TokenSQL.CL_DIFERENTE: // !=
+                            condicionComparador1 = tipo;
+                            break;
+                        case TokenSQL.CL_MAYOR: // >
+                            condicionComparador1 = tipo;
+                            break;
+                        case TokenSQL.CL_MAYOR_IGUAL: // >=
+                            condicionComparador1 = tipo;
+                            break;
+                        case TokenSQL.CL_MENOR: // <
+                            condicionComparador1 = tipo;
+                            break;
+                        case TokenSQL.CL_MENOR_IGUAL: // <=
+                            condicionComparador1 = tipo;
+                            break;
+                        case TokenSQL.ENTERO: // entero
+                            condicionValor1 = token;
+                            estado = 30;
+                            break;
+                        case TokenSQL.CADENA: // cadena
+                            condicionValor1 = token;
+                            estado = 30;
+                            break;
+                        case TokenSQL.FLOTANTE: // flotante
+                            condicionValor1 = token;
+                            estado = 30;
+                            break;
+                        case TokenSQL.FECHA: // fecha
+                            condicionValor1 = token;
+                            estado = 30;
+                            break;
+                        default:
+
+                            break;
+                    }
+                    break;
+                case 40: // ACTUALIZAR ID ESTABLCER ( L_ESTABLECER ) DONDE L_LISTA ;
+                    switch (tipo)
+                    {
+                        case TokenSQL.ID:
+                            nombreTabla = token.getLexema();
+                            listaUpdate = new List<NodoActualizar>();
+                            condicionDonde = false;
+                            break;
+                        case TokenSQL.CL_PARENTESIS_1:
+                            estado = 41;
+                            break;
+                        case TokenSQL.PR_DONDE:
+                            condicionDonde = true;
+                            estado = 42;
+                            break;
+                        case TokenSQL.CL_FL:
+                            actualizarDato();
+                            break;
+                    }
+                    break;
+                case 41: //L_ESTABLECER = ID = VALOR , ID = VALOR
+                    switch (tipo)
+                    {
+                        case TokenSQL.ID:
+                            nombreColumna = token.getLexema();
+                            break;
+                        case TokenSQL.CADENA:
+                            listaUpdate.Add(new NodoActualizar(nombreColumna, token));
+                            break;
+                        case TokenSQL.FECHA:
+                            listaUpdate.Add(new NodoActualizar(nombreColumna, token));
+                            break;
+                        case TokenSQL.ENTERO:
+                            listaUpdate.Add(new NodoActualizar(nombreColumna, token));
+                            break;
+                        case TokenSQL.FLOTANTE:
+                            listaUpdate.Add(new NodoActualizar(nombreColumna, token));
+                            break;
+                        case TokenSQL.CL_PARENTESIS_2:
+                            estado = 40;
+                            break;
+                    }
+                    break;
+                case 42:
+                    switch (tipo)
+                    {
+                        case TokenSQL.ID:
+                            condicionColumna1 = token.getLexema();
+                            Console.WriteLine("Columna condición: " + condicionColumna1);
+                            break;
+                        case TokenSQL.CL_IGUAL: // =
+                            condicionComparador1 = tipo;
+                            break;
+                        case TokenSQL.CL_DIFERENTE: // !=
+                            condicionComparador1 = tipo;
+                            break;
+                        case TokenSQL.CL_MAYOR: // >
+                            condicionComparador1 = tipo;
+                            break;
+                        case TokenSQL.CL_MAYOR_IGUAL: // >=
+                            condicionComparador1 = tipo;
+                            break;
+                        case TokenSQL.CL_MENOR: // <
+                            condicionComparador1 = tipo;
+                            break;
+                        case TokenSQL.CL_MENOR_IGUAL: // <=
+                            condicionComparador1 = tipo;
+                            break;
+                        case TokenSQL.ENTERO: // entero
+                            condicionValor1 = token;
+                            estado = 40;
+                            break;
+                        case TokenSQL.CADENA: // cadena
+                            condicionValor1 = token;
+                            estado = 40;
+                            break;
+                        case TokenSQL.FLOTANTE: // flotante
+                            condicionValor1 = token;
+                            estado = 40;
+                            break;
+                        case TokenSQL.FECHA: // fecha
+                            condicionValor1 = token;
+                            estado = 40;
+                            break;
+                        default:
+
+                            break;
+                    }
+                    break;
+                case 50:
+
+                    break;
                 default:
                     Console.WriteLine("[" + e + "] Token: " + token.getLexema());
                     break;
@@ -188,8 +365,8 @@ namespace OLC1_SQL
                 case "RAIZ": return 0;
                 case "INSTRUCCION CREAR TABLA": return 10;
                 case "INSTRUCCION INSERTAR": return 20;
-                //case "LISTA DE CAMPOS": return estado + 1;
-                //case "LISTA VALORES": return estado + 2;
+                case "INSTRUCCION ELIMINAR": return 30;
+                case "INSTRUCCION ACTUALIZAR": return 40;
                 default: return estado;
             }
         }
@@ -198,7 +375,7 @@ namespace OLC1_SQL
         {
             encontrado = false;
             int num = -1;
-            for(int i = 0; i < listaTablas.Count(); i++)
+            for (int i = 0; i < listaTablas.Count(); i++)
             {
                 if (listaTablas[i].getNombre().Equals(nombre))
                 {
@@ -207,6 +384,35 @@ namespace OLC1_SQL
                 }
             }
             return num;
+        }
+
+        private void eliminarEnTabla()
+        {
+
+            indexTabla = buscarTabla(nombreTabla);
+            if (condicionDonde)
+            {   //Ejecutar eliminción de tupla por coincidencia
+                listaTablas[indexTabla].deleteTupla(condicionColumna1, condicionComparador1, condicionValor1);
+            }
+            else
+            {   //Eliminar tabla
+                listaTablas.RemoveAt(indexTabla);
+            }
+        }
+
+        private void actualizarDato()
+        {
+            indexTabla = buscarTabla(nombreTabla);
+            Console.WriteLine("Actualizar [" + indexTabla + "] " + nombreTabla + " - " + condicionDonde.ToString());
+            if (condicionDonde)
+            {
+                listaTablas[indexTabla].updateDatos(condicionColumna1, condicionComparador1, condicionValor1, listaUpdate);
+            }
+            else
+            {
+                listaTablas[indexTabla].updateDatos(listaUpdate);
+            }
+
         }
     }
 }

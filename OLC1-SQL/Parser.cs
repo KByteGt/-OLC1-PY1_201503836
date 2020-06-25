@@ -540,11 +540,8 @@ namespace OLC1_SQL
             nodo.insertarHijo(nodoA);
 
             match(TokenSQL.CL_PARENTESIS_2, nodo);
-
-            NodoAST nodoB = new NodoAST(id, "DONDE");
-            sumarID();
-            I_ACTUALIZAR(nodoB);
-            nodo.insertarHijo(nodoB);
+            
+            I_ACTUALIZAR_1(nodo);
 
             match(TokenSQL.CL_FL, nodo);
 
@@ -559,11 +556,15 @@ namespace OLC1_SQL
             switch (preanalisis.getToken())
             {
                 case TokenSQL.PR_DONDE: // Palabra reservada DONDE
-                    match(TokenSQL.PR_DONDE, raiz);
+                    NodoAST nodo = new NodoAST(id, "DONDE");
+                    sumarID();
 
-                    CONDICION(raiz);
+                    match(TokenSQL.PR_DONDE, nodo);
 
-                    I_ACTUALIZAR_2(raiz);
+                    CONDICION(nodo);
+
+                    I_ACTUALIZAR_2(nodo);
+                    raiz.insertarHijo(nodo);
                     break;
                 default:
                     //No hacer nada
@@ -697,7 +698,7 @@ namespace OLC1_SQL
                     break;
                 default:
                     insertarError("un valor de dato", preanalisis);
-                    panico();
+                    //panico();
                     break;
             }
         }

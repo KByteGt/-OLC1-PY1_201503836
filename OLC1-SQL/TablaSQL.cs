@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static OLC1_SQL.Program;
 
 namespace OLC1_SQL
 {
@@ -34,20 +35,104 @@ namespace OLC1_SQL
             registros.Add(new TuplaSQL(id, datos));
             this.id++;
         }
+        /// <summary>
+        /// Actualizar un o variso campos
+        /// </summary>
+        /// <param name="nombreCol"></param>
+        /// <param name="op"></param>
+        /// <param name="Valor"></param>
+        /// <param name="ColUpdate"></param>
+        /// <param name="valorUpdate"></param>
+        public void updateDatos(String nombreCol, TokenSQL op, Token valor, List<NodoActualizar> lista)
+        {   //Actualiar datos
+            List<int> indexs = new List<int>();
+            int indexUpdate;
+            int indexCol = getIdColumna(nombreCol);
+            
 
-        public void updateDato(Token col, Token valor)
-        {
-            indexCol = columnas.BinarySearch(col.getLexema());
+            Console.WriteLine("Condición actualizar: [" + indexCol + "] " + nombreCol + " " + op + " " + valor.getLexema());
 
-            if(indexCol > 0)
+            if (indexCol >= 0)
             {
+                for (int i = 0; i < registros.Count(); i++)
+                {
+                    if (registros[i].condicion(indexCol, op, valor))
+                    {
+                        indexs.Add(i);
+                    }
+                }
 
+                //Actualizar Registro
+                foreach (NodoActualizar dato in lista)
+                {
+                    indexUpdate = getIdColumna(dato.columna);
+                    if (indexUpdate >= 0)
+                    {
+                        foreach (int i in indexs)
+                        {
+                            Console.WriteLine("Actualizar registro id: " + i);
+                            registros[i].actualizar(indexUpdate, dato.valor);
+
+                        }
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Actualizar filas de tabla
+        /// </summary>
+        /// <param name="lista"></param>
+        public void updateDatos(List<NodoActualizar> lista)
+        {
+            int indexUpdate;
+
+            foreach(NodoActualizar dato in lista)
+            {
+                indexUpdate = getIdColumna(dato.columna);
+                if(indexUpdate >= 0)
+                {
+                    foreach(TuplaSQL reg in registros)
+                    {
+                        reg.actualizar(indexUpdate, dato.valor);
+                    }
+                }
             }
         }
 
-        public void deleteTupla()
+        /// <summary>
+        /// Eliminar una tupla por medio de un condición.
+        /// </summary>
+        /// <param name="nombreCol"></param>
+        /// <param name="op"></param>
+        /// <param name="valor"></param>
+        public void deleteTupla(String nombreCol, TokenSQL op, Token valor)
         {   //Eliminar tupla por id
-            
+            List<int> indexs = new List<int>();
+
+            int indexCol = getIdColumna(nombreCol);
+
+            Console.WriteLine("Eliminar: [" + indexCol + "] " + nombreCol + " " + op + " " + valor.getLexema());
+
+            if(indexCol >= 0)
+            {
+                for (int i = 0; i < registros.Count(); i++)
+                {
+                    if (registros[i].condicion(indexCol, op, valor))
+                    {
+                        indexs.Add(i);
+                    }
+                }
+
+                //Eliminar registro 
+                int eliminados = 0;
+                foreach(int i in indexs)
+                {
+                    Console.WriteLine("Eliminando index: " + i);
+                    registros.RemoveAt(i-eliminados);
+                    eliminados++;
+
+                }
+            }
         }
 
         public int numeroRegistros()
@@ -108,6 +193,19 @@ namespace OLC1_SQL
         public String getNombre()
         {
             return nombre;
+        }
+
+        public int getIdColumna(String dato)
+        {
+            int index = -1;
+            for(int i = 0; i < columnas.Count(); i++)
+            {
+                if (columnas[i].ToUpper().Equals(dato.ToUpper()))
+                {
+                    index = i;
+                }
+            }
+            return index;
         }
     }
 }
